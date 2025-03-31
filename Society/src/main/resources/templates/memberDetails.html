@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Member Details</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background: linear-gradient(to right, #141e30, #243b55); /* Dark blue gradient */
+          color: white;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+        }
+
+        .member-details {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          padding: 20px;
+          border-radius: 8px;
+          width: 50%;
+          text-align: center;
+        }
+
+        .member-details h2 {
+          margin-bottom: 20px;
+        }
+
+        .member-details p {
+          margin: 10px 0;
+        }
+
+        .member-details button {
+          background: linear-gradient(145deg, #28a745, #218838);
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          margin-top: 20px;
+          font-size: 16px;
+          transition: all 0.3s ease;
+        }
+
+        .member-details button:hover {
+          background: linear-gradient(145deg, #218838, #28a745);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+          transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+<div class="member-details" th:if="${member}">
+    <h2>Member Details</h2>
+    <p><strong>ID:</strong> <span th:text="${member.FM_id}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${member.Staff_Name}"></span></p>
+    <p><strong>Role:</strong> <span th:text="${member.Role}"></span></p>
+    <p><strong>Start Date:</strong> <span th:text="${member.start_date}"></span></p>
+    <p><strong>End Date:</strong> <span th:text="${member.end_date}"></span></p>
+    <p><strong>Active:</strong> <span th:text="${member.Is_Active} ? 'Yes' : 'No'"></span></p>
+    <p><strong>Action Type:</strong> <span th:text="${member.Action_Type}"></span></p>
+    <p><strong>Action Date:</strong> <span th:text="${member.action_date}"></span></p>
+    <p><strong>Action By:</strong> <span th:text="${member.Action_By}"></span></p>
+    <button onclick="location.href='/showMembers'">Back to Members</button>
+</div>
+
+<div class="member-details" th:unless="${member}">
+    <h2>Member Not Found</h2>
+    <button onclick="location.href='/showMembers'">Back to Members</button>
+</div>
+</body>
+</html>
