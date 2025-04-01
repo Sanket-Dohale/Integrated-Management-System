@@ -1,7 +1,6 @@
 
 package com.qapla.ERP.Society.controller;
 
-
 import com.qapla.ERP.Society.model.FacilityMember;
 import com.qapla.ERP.Society.service.FacilityMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
