@@ -1,0 +1,474 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Add Document</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            background: linear-gradient(to right, #4facfe, #00f2fe);-->
+<!--            text-align: center;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--        }-->
+<!--        h2 {-->
+<!--            color: white;-->
+<!--            margin-top: 20px;-->
+<!--        }-->
+<!--        form {-->
+<!--            background: white;-->
+<!--            padding: 20px;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);-->
+<!--            width: 50%;-->
+<!--            margin: 20px auto;-->
+<!--            text-align: left;-->
+<!--        }-->
+<!--        label {-->
+<!--            font-size: 16px;-->
+<!--            font-weight: bold;-->
+<!--            display: block;-->
+<!--            margin-top: 10px;-->
+<!--        }-->
+<!--        input[type="text"], select {-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            margin-top: 5px;-->
+<!--            border-radius: 5px;-->
+<!--            border: 1px solid #ccc;-->
+<!--            box-sizing: border-box;-->
+<!--        }-->
+<!--        input[type="checkbox"] {-->
+<!--            width: auto;-->
+<!--            display: inline-block;-->
+<!--            margin-right: 5px;-->
+<!--        }-->
+<!--        button {-->
+<!--            width: 100%;-->
+<!--            padding: 12px;-->
+<!--            margin-top: 20px;-->
+<!--            background: #007bff;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            border-radius: 5px;-->
+<!--            font-size: 16px;-->
+<!--            cursor: pointer;-->
+<!--            transition: 0.3s;-->
+<!--        }-->
+<!--        button:hover {-->
+<!--            background: #0056b3;-->
+<!--        }-->
+<!--        .navigation {-->
+<!--            margin-top: 30px;-->
+<!--            text-align: center;-->
+<!--        }-->
+<!--        .navigation a {-->
+<!--            display: inline-block;-->
+<!--            padding: 10px 15px;-->
+<!--            margin: 5px;-->
+<!--            text-decoration: none;-->
+<!--            background-color: #6c757d;-->
+<!--            color: white;-->
+<!--            border-radius: 5px;-->
+<!--            transition: background-color 0.3s ease;-->
+<!--        }-->
+<!--        .navigation a:hover {-->
+<!--            background-color: #545b62;-->
+<!--        }-->
+<!--        .btn-home { background-color: #17a2b8; }-->
+<!--        .btn-add { background-color: #28a745; }-->
+<!--        .btn-documents { background-color: #ffc107; color: black; }-->
+
+<!--        /* Banner Styles */-->
+<!--.banner {-->
+<!--    background: linear-gradient(to right, #141e30, #243b55);-->
+<!--    color: white;-->
+<!--    padding: 15px 0;-->
+<!--    box-shadow: 0 2px 10px rgba(0,0,0,0.2);-->
+<!--    position: sticky;-->
+<!--    top: 0;-->
+<!--    z-index: 1000;-->
+<!--}-->
+
+<!--.banner-container {-->
+<!--    display: flex;-->
+<!--    justify-content: space-between;-->
+<!--    align-items: center;-->
+<!--    max-width: 1200px;-->
+<!--    margin: 0 auto;-->
+<!--    padding: 0 20px;-->
+<!--}-->
+
+<!--.society-info {-->
+<!--    display: flex;-->
+<!--    align-items: center;-->
+<!--}-->
+
+<!--.society-name {-->
+<!--    font-size: 1.5rem;-->
+<!--    font-weight: bold;-->
+<!--    margin-right: 20px;-->
+<!--}-->
+
+<!--.app-name {-->
+<!--    font-size: 1.2rem;-->
+<!--    opacity: 0.8;-->
+<!--}-->
+
+<!--.user-info {-->
+<!--    display: flex;-->
+<!--    align-items: center;-->
+<!--}-->
+
+<!--.user-name {-->
+<!--    margin-right: 15px;-->
+<!--}-->
+
+<!--.logout-btn {-->
+<!--    background: #f44336;-->
+<!--    color: white;-->
+<!--    border: none;-->
+<!--    padding: 5px 10px;-->
+<!--    border-radius: 4px;-->
+<!--    cursor: pointer;-->
+<!--    text-decoration: none;-->
+<!--    font-size: 0.9rem;-->
+<!--}-->
+
+<!--/* Navigation Menu */-->
+<!--.nav-menu {-->
+<!--    background: #243b55;-->
+<!--    padding: 10px 0;-->
+<!--}-->
+
+<!--.nav-container {-->
+<!--    max-width: 1200px;-->
+<!--    margin: 0 auto;-->
+<!--    padding: 0 20px;-->
+<!--}-->
+
+<!--.nav-list {-->
+<!--    display: flex;-->
+<!--    list-style: none;-->
+<!--    padding: 0;-->
+<!--    margin: 0;-->
+<!--}-->
+
+<!--.nav-item {-->
+<!--    position: relative;-->
+<!--    margin-right: 20px;-->
+<!--}-->
+
+<!--.nav-link {-->
+<!--    color: white;-->
+<!--    text-decoration: none;-->
+<!--    padding: 5px 10px;-->
+<!--    display: block;-->
+<!--}-->
+
+<!--.nav-link:hover {-->
+<!--    background: rgba(255,255,255,0.1);-->
+<!--}-->
+
+<!--.dropdown-menu {-->
+<!--    display: none;-->
+<!--    position: absolute;-->
+<!--    background: white;-->
+<!--    min-width: 200px;-->
+<!--    box-shadow: 0 2px 5px rgba(0,0,0,0.2);-->
+<!--    z-index: 1;-->
+<!--    border-radius: 4px;-->
+<!--}-->
+
+<!--.dropdown-menu a {-->
+<!--    color: #333;-->
+<!--    padding: 10px 15px;-->
+<!--    text-decoration: none;-->
+<!--    display: block;-->
+<!--}-->
+
+<!--.dropdown-menu a:hover {-->
+<!--    background: #f1f1f1;-->
+<!--}-->
+
+<!--.nav-item:hover .dropdown-menu {-->
+<!--    display: block;-->
+<!--}-->
+
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div th:replace="~{banner :: banner}"></div>-->
+<!--<h2>Add Document</h2>-->
+<!--<form th:action="@{/documents/save}" method="post" th:object="${document}">-->
+<!--    <label for="memberId">Member ID:</label>-->
+<!--    <input type="text" id="memberId" th:field="*{memberId}" required>-->
+<!--    <label for="documentName">Document Name:</label>-->
+<!--    <input type="text" id="documentName" th:field="*{documentName}" required>-->
+<!--    <label for="documentType">Document Type:</label>-->
+<!--    <select id="documentType" th:field="*{documentType}">-->
+<!--        <option value="ID">ID</option>-->
+<!--        <option value="License">License</option>-->
+<!--        <option value="Passport">Passport</option>-->
+<!--        <option value="Other">Other</option>-->
+<!--    </select>-->
+<!--    <label for="isActive">Is Active:</label>-->
+<!--    <input type="checkbox" id="isActive" th:field="*{isActive}">-->
+<!--    <button type="submit">Submit</button>-->
+<!--</form>-->
+<!--<div class="navigation">-->
+<!--    <a href="/" class="btn-home">🏠 Home</a>-->
+<!--    <a href="/documents/add" class="btn-add">🔄 Refresh</a>-->
+<!--    <a href="/documents/list" class="btn-documents">📜 View Member Documents</a>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            color: white;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        form {
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+            width: 50%;
+            margin: 20px auto;
+            text-align: left;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: none;
+            background: #ecf0f1;
+            color: #2c3e50;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #2980b9;
+        }
+
+        .navigation {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .navigation a {
+            display: inline-block;
+            padding: 10px 15px;
+            margin: 5px;
+            text-decoration: none;
+            background-color: #34495e;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navigation a:hover {
+            background-color: #2c3e50;
+        }
+
+        .btn-home { background-color: #1abc9c; }
+        .btn-add { background-color: #2ecc71; }
+        .btn-documents { background-color: #f39c12; color: black; }
+
+        /* Banner and Navigation Menu Styles */
+        .banner {
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .banner-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .society-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .society-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .app-name {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-name {
+            margin-right: 15px;
+        }
+
+        .logout-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .nav-menu {
+            background: #243b55;
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
+
+        .dropdown-menu a {
+            color: #333;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f1f1f1;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Banner -->
+<div th:replace="~{banner :: banner}"></div>
+
+<h2>Add Document</h2>
+<form th:action="@{/documents/save}" method="post" th:object="${document}">
+    <label for="memberId">Member ID:</label>
+    <input type="text" id="memberId" th:field="*{memberId}" required>
+
+    <label for="documentName">Document Name:</label>
+    <input type="text" id="documentName" th:field="*{documentName}" required>
+
+    <label for="documentType">Document Type:</label>
+    <select id="documentType" th:field="*{documentType}">
+        <option value="ID">ID</option>
+        <option value="License">License</option>
+        <option value="Passport">Passport</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <label for="isActive">Is Active:</label>
+    <input type="checkbox" id="isActive" th:field="*{isActive}">
+
+    <button type="submit">Submit</button>
+</form>
+
+<div class="navigation">
+    <a href="/" class="btn-home">🏠 Home</a>
+    <a href="/documents/add" class="btn-add">🔄 Refresh</a>
+    <a href="/documents/list" class="btn-documents">📜 View Member Documents</a>
+</div>
+
+</body>
+</html>
+

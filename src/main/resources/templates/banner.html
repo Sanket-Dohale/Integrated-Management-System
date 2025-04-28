@@ -1,0 +1,392 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>Society Management System</title>
+    <style>
+        /* Banner Styles */
+        .banner {
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .banner-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .society-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .society-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .app-name {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-name {
+            margin-right: 15px;
+        }
+
+        .logout-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            background: #243b55;
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
+
+        .dropdown-menu a {
+            color: #333;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f1f1f1;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<!-- Banner + Navigation fragment -->
+<div th:fragment="banner">
+    <div class="banner">
+        <div class="banner-container">
+            <div class="society-info">
+                <div class="society-name">Qapla Society Management System</div>
+<!--                <div class="app-name"></div>-->
+            </div>
+            <div class="user-info" th:if="${session.loggedInUser}">
+                <div class="user-name" th:text="'Welcome, ' + ${session.loggedInUser.memberName}"></div>
+                <a href="/logout" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="nav-menu">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Facility Management</a>
+                    <div class="dropdown-menu">
+                        <a href="/addMember">Add Member</a>
+                        <a href="/showMembers">Show Members</a>
+                        <a href="/bulkUpload">Bulk Upload</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Document Management</a>
+                    <div class="dropdown-menu">
+                        <a href="/documents/add">Add Document</a>
+                        <a href="/documents/list">Member Documents</a>
+                        <a href="/upload">Bulk Document Upload</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Society Management</a>
+                    <div class="dropdown-menu">
+                        <a href="/add-member">Add New Member</a>
+                        <a href="/members">View Members</a>
+                        <a href="/upload-members">Bulk Upload Members</a>
+                    </div>
+                </li>
+
+                <!-- Add this to the nav-list in banner.html -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Tenders</a>
+                    <div class="dropdown-menu">
+                        <a href="/tenders">View Tenders</a>
+                        <th:block th:if="${session.loggedInUser != null and
+                         (session.loggedInUser.role.name() == 'CHAIRMAN' or
+                          session.loggedInUser.role.name() == 'SECRETARY')}">
+                            <a href="/tenders/create">Create Tender</a>
+                        </th:block>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head th:fragment="head">-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Society Management System</title>-->
+<!--    <style>-->
+<!--        /* Global Styles */-->
+<!--        body {-->
+<!--            margin: 0;-->
+<!--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
+<!--            background-color: #f4f4f4;-->
+<!--        }-->
+
+<!--        /* Banner Styles */-->
+<!--        .banner {-->
+<!--            background: linear-gradient(to right, #141e30, #243b55);-->
+<!--            color: white;-->
+<!--            padding: 15px 0;-->
+<!--            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);-->
+<!--            position: sticky;-->
+<!--            top: 0;-->
+<!--            z-index: 1000;-->
+<!--        }-->
+
+<!--        .banner-container {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            max-width: 1200px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 0 20px;-->
+<!--        }-->
+
+<!--        .society-info {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .society-name {-->
+<!--            font-size: 1.8rem;-->
+<!--            font-weight: bold;-->
+<!--            margin-right: 20px;-->
+<!--        }-->
+
+<!--        .user-info {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .user-name {-->
+<!--            margin-right: 15px;-->
+<!--            font-weight: 500;-->
+<!--        }-->
+
+<!--        .logout-btn {-->
+<!--            background: #f44336;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            padding: 6px 12px;-->
+<!--            border-radius: 4px;-->
+<!--            cursor: pointer;-->
+<!--            text-decoration: none;-->
+<!--            font-size: 0.9rem;-->
+<!--            transition: background 0.3s;-->
+<!--        }-->
+
+<!--        .logout-btn:hover {-->
+<!--            background: #d32f2f;-->
+<!--        }-->
+
+<!--        /* Navigation Menu Styles */-->
+<!--        .nav-menu {-->
+<!--            background: #1b2b3a;-->
+<!--            padding: 10px 0;-->
+<!--        }-->
+
+<!--        .nav-container {-->
+<!--            max-width: 1200px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 0 20px;-->
+<!--        }-->
+
+<!--        .nav-list {-->
+<!--            display: flex;-->
+<!--            list-style: none;-->
+<!--            padding: 0;-->
+<!--            margin: 0;-->
+<!--        }-->
+
+<!--        .nav-item {-->
+<!--            position: relative;-->
+<!--            margin-right: 25px;-->
+<!--        }-->
+
+<!--        .nav-link {-->
+<!--            color: white;-->
+<!--            text-decoration: none;-->
+<!--            padding: 8px 14px;-->
+<!--            display: block;-->
+<!--            font-weight: 500;-->
+<!--            border-radius: 4px;-->
+<!--        }-->
+
+<!--        .nav-link:hover {-->
+<!--            background: rgba(255, 255, 255, 0.1);-->
+<!--        }-->
+
+<!--        .dropdown-menu {-->
+<!--            display: none;-->
+<!--            position: absolute;-->
+<!--            top: 100%;-->
+<!--            left: 0;-->
+<!--            background: #2f3e50;-->
+<!--            min-width: 200px;-->
+<!--            border-radius: 4px;-->
+<!--            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);-->
+<!--            z-index: 1001;-->
+<!--        }-->
+
+<!--        .dropdown-menu a {-->
+<!--            color: white;-->
+<!--            padding: 10px 15px;-->
+<!--            text-decoration: none;-->
+<!--            display: block;-->
+<!--            transition: background 0.2s;-->
+<!--        }-->
+
+<!--        .dropdown-menu a:hover {-->
+<!--            background: rgba(255, 255, 255, 0.1);-->
+<!--        }-->
+
+<!--        .nav-item:hover .dropdown-menu {-->
+<!--            display: block;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:fragment="banner">-->
+<!--    &lt;!&ndash; Top Banner &ndash;&gt;-->
+<!--    <div class="banner">-->
+<!--        <div class="banner-container">-->
+<!--            <div class="society-info">-->
+<!--                <div class="society-name">Qapla Society Management System</div>-->
+<!--            </div>-->
+<!--            <div class="user-info" th:if="${session.loggedInUser}">-->
+<!--                <div class="user-name" th:text="'Welcome, ' + ${session.loggedInUser.memberName}"></div>-->
+<!--                <a href="/logout" class="logout-btn">Logout</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Navigation Menu &ndash;&gt;-->
+<!--    <div class="nav-menu">-->
+<!--        <div class="nav-container">-->
+<!--            <ul class="nav-list">-->
+<!--                &lt;!&ndash; Facility Management &ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a href="#" class="nav-link">Facility Management</a>-->
+<!--                    <div class="dropdown-menu">-->
+<!--                        <a href="/addMember">Add Member</a>-->
+<!--                        <a href="/showMembers">Show Members</a>-->
+<!--                        <a href="/bulkUpload">Bulk Upload</a>-->
+<!--                    </div>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash; Document Management &ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a href="#" class="nav-link">Document Management</a>-->
+<!--                    <div class="dropdown-menu">-->
+<!--                        <a href="/documents/add">Add Document</a>-->
+<!--                        <a href="/documents/list">Member Documents</a>-->
+<!--                        <a href="/upload">Bulk Document Upload</a>-->
+<!--                    </div>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash; Society Management &ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a href="#" class="nav-link">Society Management</a>-->
+<!--                    <div class="dropdown-menu">-->
+<!--                        <a href="/add-member">Add New Member</a>-->
+<!--                        <a href="/members">View Members</a>-->
+<!--                        <a href="/upload-members">Bulk Upload Members</a>-->
+<!--                    </div>-->
+<!--                </li>-->
+
+<!--                &lt;!&ndash; Tenders &ndash;&gt;-->
+<!--                <li class="nav-item">-->
+<!--                    <a href="#" class="nav-link">Tenders</a>-->
+<!--                    <div class="dropdown-menu">-->
+<!--                        <a href="/tenders">View Tenders</a>-->
+<!--                        <th:block th:if="${session.loggedInUser != null and-->
+<!--                            (session.loggedInUser.role.name() == 'CHAIRMAN' or-->
+<!--                            session.loggedInUser.role.name() == 'SECRETARY')}">-->
+<!--                            <a href="/tenders/create">Create Tender</a>-->
+<!--                        </th:block>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

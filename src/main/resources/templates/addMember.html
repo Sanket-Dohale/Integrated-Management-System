@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Member</title>
+  <style>
+    /* Professional Background Styling */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      background: linear-gradient(to right, #141e30, #243b55);
+    }
+
+    /* Glassmorphism Form Container */
+    .form-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      width: 100%;
+      max-width: 500px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 10px;
+    }
+
+    /* Header inside the form */
+    .form-header {
+      background: linear-gradient(145deg, #28a745, #218838);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-radius: 12px 12px 0 0;
+    }
+
+    /* Scrollable form styling */
+    .form-content {
+      padding: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: white;
+    }
+
+    form input[type="text"],
+    form input[type="date"],
+    form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      background: white;
+      color: black;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    form select:hover {
+      border-color: #28a745;
+    }
+
+    form select:focus {
+      outline: none;
+      border-color: #218838;
+      box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    }
+
+    form input::placeholder {
+      color: #666;
+    }
+
+    form input[type="checkbox"] {
+      margin-bottom: 15px;
+    }
+
+    /* Submit button and action buttons */
+    .form-buttons {
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn {
+      background: linear-gradient(145deg, #28a745, #218838);
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      width: 48%;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background: linear-gradient(145deg, #218838, #28a745);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-3px);
+    }
+
+    /* Navigation Buttons */
+    .button-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      width: 100%;
+    }
+
+    .button-container .btn {
+      width: 150px;
+    }
+
+    /* Scrollbar styling */
+    .form-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .form-content::-webkit-scrollbar-thumb {
+      background-color: #ccc;
+      border-radius: 4px;
+    }
+
+    .form-content::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* Responsive styling */
+    @media (max-width: 480px) {
+      .form-container {
+        width: 90%;
+      }
+
+      .btn {
+        font-size: 0.9rem;
+      }
+
+      .button-container {
+        flex-direction: column;
+      }
+
+      .button-container .btn {
+        width: 100%;
+      }
+    }
+
+    /* Banner Styles */
+.banner {
+    background: linear-gradient(to right, #141e30, #243b55);
+    color: white;
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.banner-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.society-info {
+    display: flex;
+    align-items: center;
+}
+
+.society-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.app-name {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-name {
+    margin-right: 15px;
+}
+
+.logout-btn {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+/* Navigation Menu */
+.nav-menu {
+    background: #243b55;
+    padding: 10px 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    position: relative;
+    margin-right: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    display: block;
+}
+
+.nav-link:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.dropdown-menu a {
+    color: #333;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background: #f1f1f1;
+}
+
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+  </style>
+</head>
+<body>
+<div th:replace="~{banner :: banner}"></div>
+<!-- Form Section -->
+<div class="form-container">
+  <div class="form-header">Add Member</div>
+
+  <div class="form-content">
+    <form action="/saveMember" method="post">
+      <label for="Staff_Name">Name:</label>
+      <input type="text" id="Staff_Name" name="Staff_Name" placeholder="Enter name" required>
+
+      <label for="Role">Role:</label>
+      <select id="Role" name="Role" required>
+        <option value="CHAIRMAN">Chairman</option>
+        <option value="SECRETARY">Secretary</option>
+        <option value="TREASURER">Treasurer</option>
+        <option value="COMMITTEE_MEMBER">Committee Member</option>
+        <option value="PROPERTY_MANAGER">Property Manager</option>
+        <option value="ASST_MANAGER">Asst Manager</option>
+        <option value="HELP_DESK">Help Desk</option>
+      </select>
+
+      <label for="start_date">Start Date:</label>
+      <input type="date" id="start_date" name="start_date" required>
+
+      <label for="end_date">End Date:</label>
+      <input type="date" id="end_date" name="end_date">
+
+      <label for="Is_Active">Active:</label>
+      <input type="checkbox" id="Is_Active" name="Is_Active" value="true">
+
+      <label for="Action_Type">Action Type:</label>
+      <input type="text" id="Action_Type" name="Action_Type" placeholder="Enter action type">
+
+      <label for="Action_Date">Action Date:</label>
+      <input type="date" id="Action_Date" name="action_date">
+
+      <label for="Action_By">Action By:</label>
+      <input type="text" id="Action_By" name="Action_By" placeholder="Enter name">
+
+      <div class="form-buttons">
+        <button type="submit" class="btn">Save</button>
+        <button type="button" class="btn" onclick="location.href='/showMembers'">Show Members</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Navigation Buttons -->
+<div class="button-container">
+  <button class="btn" onclick="location.href='/'">Home</button>
+</div>
+
+</body>
+</html>

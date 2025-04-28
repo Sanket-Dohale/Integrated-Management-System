@@ -1,0 +1,600 @@
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Add Member</title>-->
+<!--    <style>-->
+<!--        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }-->
+<!--        .container { width: 90%; max-width: 800px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }-->
+<!--        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }-->
+<!--        h1 { color: #444; margin: 0; }-->
+<!--        .btn { display: inline-block; background: #333; color: #fff; padding: 0.6rem 1.2rem; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; font-size: 1rem; }-->
+<!--        .form-group { margin-bottom: 1.5rem; }-->
+<!--        label { display: block; margin-bottom: 0.5rem; font-weight: bold; }-->
+<!--        input, select { width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; }-->
+<!--        input[type="checkbox"] { width: auto; margin-left: 0; transform: scale(1.5); }-->
+<!--        .error { color: red; font-size: 0.8em; margin-top: 0.3rem; display: block; }-->
+<!--        .form-actions { display: flex; gap: 1rem; margin-top: 2rem; }-->
+<!--        .form-btn { display: inline-block; padding: 0.8rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; font-size: 1rem; text-align: center; flex: 1; }-->
+<!--        .btn-submit { background: #4CAF50; color: #fff; }-->
+<!--        .btn-cancel { background: #333; color: #fff; }-->
+
+<!--        /* Banner Styles */-->
+<!--        .banner {-->
+<!--            background: linear-gradient(to right, #141e30, #243b55);-->
+<!--            color: white;-->
+<!--            padding: 15px 0;-->
+<!--            box-shadow: 0 2px 10px rgba(0,0,0,0.2);-->
+<!--            position: sticky;-->
+<!--            top: 0;-->
+<!--            z-index: 1000;-->
+<!--        }-->
+
+<!--        .banner-container {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            max-width: 1200px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 0 20px;-->
+<!--        }-->
+
+<!--        .society-info {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .society-name {-->
+<!--            font-size: 1.5rem;-->
+<!--            font-weight: bold;-->
+<!--            margin-right: 20px;-->
+<!--        }-->
+
+<!--        .app-name {-->
+<!--            font-size: 1.2rem;-->
+<!--            opacity: 0.8;-->
+<!--        }-->
+
+<!--        .user-info {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .user-name {-->
+<!--            margin-right: 15px;-->
+<!--        }-->
+
+<!--        .logout-btn {-->
+<!--            background: #f44336;-->
+<!--            color: white;-->
+<!--            border: none;-->
+<!--            padding: 5px 10px;-->
+<!--            border-radius: 4px;-->
+<!--            cursor: pointer;-->
+<!--            text-decoration: none;-->
+<!--            font-size: 0.9rem;-->
+<!--        }-->
+
+<!--        .nav-menu {-->
+<!--            background: #243b55;-->
+<!--            padding: 10px 0;-->
+<!--        }-->
+
+<!--        .nav-container {-->
+<!--            max-width: 1200px;-->
+<!--            margin: 0 auto;-->
+<!--            padding: 0 20px;-->
+<!--        }-->
+
+<!--        .nav-list {-->
+<!--            display: flex;-->
+<!--            list-style: none;-->
+<!--            padding: 0;-->
+<!--            margin: 0;-->
+<!--        }-->
+
+<!--        .nav-item {-->
+<!--            position: relative;-->
+<!--            margin-right: 20px;-->
+<!--        }-->
+
+<!--        .nav-link {-->
+<!--            color: white;-->
+<!--            text-decoration: none;-->
+<!--            padding: 5px 10px;-->
+<!--            display: block;-->
+<!--        }-->
+
+<!--        .nav-link:hover {-->
+<!--            background: rgba(255,255,255,0.1);-->
+<!--        }-->
+
+<!--        .dropdown-menu {-->
+<!--            display: none;-->
+<!--            position: absolute;-->
+<!--            background: white;-->
+<!--            min-width: 200px;-->
+<!--            box-shadow: 0 2px 5px rgba(0,0,0,0.2);-->
+<!--            z-index: 1;-->
+<!--            border-radius: 4px;-->
+<!--        }-->
+
+<!--        .dropdown-menu a {-->
+<!--            color: #333;-->
+<!--            padding: 10px 15px;-->
+<!--            text-decoration: none;-->
+<!--            display: block;-->
+<!--        }-->
+
+<!--        .dropdown-menu a:hover {-->
+<!--            background: #f1f1f1;-->
+<!--        }-->
+
+<!--        .nav-item:hover .dropdown-menu {-->
+<!--            display: block;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div th:replace="~{banner :: banner}"></div>-->
+
+<!--<div th:if="${errorMessage}" class="alert alert-danger"-->
+<!--     style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; padding: 10px; margin-bottom: 15px; border-radius: 4px;">-->
+<!--    <span th:text="${errorMessage}"></span>-->
+<!--</div>-->
+
+<!--<div class="container">-->
+<!--    <div class="header">-->
+<!--        <h1>Add New Member</h1>-->
+<!--        <a href="/members" class="btn">Back to List</a>-->
+<!--    </div>-->
+
+<!--    <form th:action="@{/save-member}" th:object="${member}" method="post">-->
+<!--        <div class="form-group">-->
+<!--            <label for="memberName">Member Name:</label>-->
+<!--            <input type="text" id="memberName" th:field="*{memberName}" required>-->
+<!--            <span th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}" class="error"></span>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="tower">Tower:</label>-->
+<!--            <select id="tower" th:field="*{tower}" required>-->
+<!--                <option value="">Select Tower</option>-->
+<!--                <option value="A">Tower A</option>-->
+<!--                <option value="B">Tower B</option>-->
+<!--                <option value="C">Tower C</option>-->
+<!--                <option value="D">Tower D</option>-->
+<!--                <option value="E">Tower E</option>-->
+<!--                <option value="F">Tower F</option>-->
+<!--            </select>-->
+<!--            <span th:if="${#fields.hasErrors('tower')}" th:errors="*{tower}" class="error"></span>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="flatNo">Flat Number:</label>-->
+<!--            <input type="number" id="flatNo" th:field="*{flatNo}" required min="1">-->
+<!--            <span th:if="${#fields.hasErrors('flatNo')}" th:errors="*{flatNo}" class="error"></span>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="primary">Is Primary Member:</label>-->
+<!--            <input type="checkbox" id="primary" th:field="*{primary}">-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="startDate">Start Date:</label>-->
+<!--            <input type="date" id="startDate" th:field="*{startDate}" required>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="endDate">End Date:</label>-->
+<!--            <input type="date" id="endDate" th:field="*{endDate}">-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="actionType">Action Type:</label>-->
+<!--            <input type="text" id="actionType" th:field="*{actionType}">-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="actionBy">Action By:</label>-->
+<!--            <input type="text" id="actionBy" th:field="*{actionBy}">-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="username">Username:</label>-->
+<!--            <input type="text" id="username" th:field="*{username}" required>-->
+<!--            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="password">Password:</label>-->
+<!--            <input type="password" id="password" th:field="*{password}" required>-->
+<!--            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>-->
+<!--        </div>-->
+
+<!--        <div class="form-group">-->
+<!--            <label for="role">Role:</label>-->
+<!--            <select id="role" th:field="*{role}" required>-->
+<!--                <option value="" th:selected="${member.role == null}">Select Role</option>-->
+<!--                <option value="CHAIRMAN">Chairman</option>-->
+<!--                <option value="SECRETARY">Secretary</option>-->
+<!--                <option value="TREASURER">Treasurer</option>-->
+<!--                <option value="COMMITTEE_MEMBER">Committee Member</option>-->
+<!--                <option value="PROPERTY_MANAGER">Property Manager</option>-->
+<!--                <option value="ASST_MANAGER">Assistant Manager</option>-->
+<!--                <option value="HELP_DESK">Help Desk</option>-->
+<!--                <option value="MEMBER">Member</option>-->
+<!--            </select>-->
+<!--            <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="error"></span>-->
+<!--        </div>-->
+
+<!--        <div class="form-actions">-->
+<!--            <button type="submit" class="form-btn btn-submit">Save Member</button>-->
+<!--            <a href="/members" class="form-btn btn-cancel">Cancel</a>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Member</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #1c2833;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: white;
+            margin: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            background: #34495e;
+            color: white;
+        }
+
+        input[type="checkbox"] {
+            width: auto;
+            margin-left: 0;
+            transform: scale(1.5);
+        }
+
+        .error {
+            color: #ff6b6b;
+            font-size: 0.85em;
+            margin-top: 0.3rem;
+            display: block;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .form-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            text-align: center;
+            flex: 1;
+        }
+
+        .btn-submit {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #27ae60;
+        }
+
+        .btn-cancel {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: #c0392b;
+        }
+
+        /* Alert */
+        .alert {
+            color: #ffcccc;
+            background-color: #990000;
+            border-color: #cc0000;
+            padding: 12px;
+            margin: 15px auto;
+            border-radius: 4px;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        /* Banner Styles */
+        .banner {
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .banner-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .society-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .society-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .app-name {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-name {
+            margin-right: 15px;
+        }
+
+        .logout-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .nav-menu {
+            background: #243b55;
+            padding: 10px 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
+
+        .dropdown-menu a {
+            color: #333;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f1f1f1;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div th:replace="~{banner :: banner}"></div>
+
+<div th:if="${errorMessage}" class="alert">
+    <span th:text="${errorMessage}"></span>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h1>Add New Member</h1>
+        <a href="/members" class="btn">Back to List</a>
+    </div>
+
+    <form th:action="@{/save-member}" th:object="${member}" method="post">
+        <div class="form-group">
+            <label for="memberName">Member Name:</label>
+            <input type="text" id="memberName" th:field="*{memberName}" required>
+            <span th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="tower">Tower:</label>
+            <select id="tower" th:field="*{tower}" required>
+                <option value="">Select Tower</option>
+                <option value="A">Tower A</option>
+                <option value="B">Tower B</option>
+                <option value="C">Tower C</option>
+                <option value="D">Tower D</option>
+                <option value="E">Tower E</option>
+                <option value="F">Tower F</option>
+            </select>
+            <span th:if="${#fields.hasErrors('tower')}" th:errors="*{tower}" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="flatNo">Flat Number:</label>
+            <input type="number" id="flatNo" th:field="*{flatNo}" required min="1">
+            <span th:if="${#fields.hasErrors('flatNo')}" th:errors="*{flatNo}" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="primary">Is Primary Member:</label>
+            <input type="checkbox" id="primary" th:field="*{primary}">
+        </div>
+
+        <div class="form-group">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate" th:field="*{startDate}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate" th:field="*{endDate}">
+        </div>
+
+        <div class="form-group">
+            <label for="actionType">Action Type:</label>
+            <input type="text" id="actionType" th:field="*{actionType}">
+        </div>
+
+        <div class="form-group">
+            <label for="actionBy">Action By:</label>
+            <input type="text" id="actionBy" th:field="*{actionBy}">
+        </div>
+
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" th:field="*{username}" required>
+            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}" required>
+            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Role:</label>
+            <select id="role" th:field="*{role}" required>
+                <option value="" th:selected="${member.role == null}">Select Role</option>
+                <option value="CHAIRMAN">Chairman</option>
+                <option value="SECRETARY">Secretary</option>
+                <option value="TREASURER">Treasurer</option>
+                <option value="COMMITTEE_MEMBER">Committee Member</option>
+                <option value="PROPERTY_MANAGER">Property Manager</option>
+                <option value="ASST_MANAGER">Assistant Manager</option>
+                <option value="HELP_DESK">Help Desk</option>
+                <option value="MEMBER">Member</option>
+            </select>
+            <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="error"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="form-btn btn-submit">Save Member</button>
+            <a href="/members" class="form-btn btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
