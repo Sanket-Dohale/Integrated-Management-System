@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -7,118 +8,120 @@
     <title>Member List</title>
     <style>
         body {
-          font-family: Arial, sans-serif;
-          margin: 0;
-          padding: 0;
-          background: linear-gradient(to right, #141e30, #243b55); /* Dark blue gradient */
-          color: white;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
-          margin-top: 20px;
+            margin-top: 20px;
         }
 
         table {
-          width: 90%;
-          margin: 20px auto;
-          border-collapse: collapse;
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(10px);
-          border-radius: 8px;
-          overflow: hidden;
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: #f9f9f9;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         th, td {
-          padding: 12px;
-          text-align: center;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          color: white;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ccc;
         }
 
         th {
-          background-color: #28a745;
+            background-color: black;
+            color: white;
         }
 
         tr:nth-child(even) {
-          background-color: rgba(255, 255, 255, 0.1);
+            background-color: #f1f1f1;
         }
 
         tr:hover {
-          background-color: rgba(255, 255, 255, 0.2);
+            background-color: #e9e9e9;
         }
 
         button {
-          display: inline-block;
-          background: linear-gradient(145deg, #28a745, #218838);
-          color: white;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          margin: 10px;
-          font-size: 16px;
-          transition: all 0.3s ease;
+            display: inline-block;
+            background: linear-gradient(145deg, #28a745, #218838);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
         }
 
         button:hover {
-          background: linear-gradient(145deg, #218838, #28a745);
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-          transform: translateY(-3px);
+            background: linear-gradient(145deg, #218838, #28a745);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
         }
 
         .pagination {
-          text-align: center;
-          margin-top: 20px;
+            text-align: center;
+            margin-top: 20px;
         }
 
         .pagination a {
-          margin: 0 5px;
-          text-decoration: none;
-          color: #28a745;
+            margin: 0 5px;
+            text-decoration: none;
+            color: #28a745;
         }
 
         .pagination a:hover {
-          text-decoration: underline;
+            text-decoration: underline;
         }
 
         .success-message {
-          text-align: center;
-          color: #28a745;
-          margin-top: 20px;
-          font-size: 1.2rem;
-          font-weight: bold;
+            text-align: center;
+            color: #28a745;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
 
         .search-form {
-          margin-bottom: 20px;
+            margin-bottom: 20px;
         }
 
         .search-form input[type="text"] {
-          padding: 10px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          font-size: 1rem;
-          width: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            width: 200px;
         }
 
         .search-form button {
-          padding: 10px 20px;
-          background: linear-gradient(145deg, #28a745, #218838);
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 1rem;
+            padding: 10px 20px;
+            background: linear-gradient(145deg, #00bfff, #1e90ff);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         .search-form button:hover {
-          background: linear-gradient(145deg, #218838, #28a745);
+            background: linear-gradient(145deg, #1e90ff, #00bfff);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
         }
 
-                .export-form {
+        .export-form {
             margin-bottom: 20px;
             display: flex;
             gap: 10px;
@@ -137,145 +140,254 @@
 
         .export-form button {
             padding: 10px 20px;
-            background: linear-gradient(145deg, #4CAF50, #45a049);
+            background: linear-gradient(145deg, #6a11cb, #2575fc);
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         .export-form button:hover {
-            background: linear-gradient(145deg, #45a049, #4CAF50);
+            background: linear-gradient(145deg, #2575fc, #6a11cb);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
+        .delete-button {
+            background: linear-gradient(145deg, #dc3545, #c82333);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .delete-button:hover {
+            background: linear-gradient(145deg, #c82333, #dc3545);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
         }
 
         /* Banner Styles */
-.banner {
-    background: linear-gradient(to right, #141e30, #243b55);
-    color: white;
-    padding: 15px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
+        .banner {
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
 
-.banner-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+        .banner-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
 
-.society-info {
-    display: flex;
-    align-items: center;
-}
+        .society-info {
+            display: flex;
+            align-items: center;
+        }
 
-.society-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-right: 20px;
-}
+        .society-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
 
-.app-name {
-    font-size: 1.2rem;
-    opacity: 0.8;
-}
+        .app-name {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
 
-.user-info {
-    display: flex;
-    align-items: center;
-}
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
 
-.user-name {
-    margin-right: 15px;
-}
+        .user-name {
+            margin-right: 15px;
+        }
 
-.logout-btn {
-    background: #f44336;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 0.9rem;
-}
+        .logout-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
 
-/* Navigation Menu */
-.nav-menu {
-    background: #243b55;
-    padding: 10px 0;
-}
+        /* Navigation Menu */
+        .nav-menu {
+            background: #243b55;
+            padding: 10px 0;
+            width: 100%;
+        }
 
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-.nav-list {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+        .nav-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-.nav-item {
-    position: relative;
-    margin-right: 20px;
-}
+        .nav-item {
+            position: relative;
+            margin-right: 20px;
+        }
 
-.nav-link {
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-    display: block;
-}
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+        }
 
-.nav-link:hover {
-    background: rgba(255,255,255,0.1);
-}
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
 
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    background: white;
-    min-width: 200px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 4px;
-}
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
 
-.dropdown-menu a {
-    color: #333;
-    padding: 10px 15px;
-    text-decoration: none;
-    display: block;
-}
+        .dropdown-menu a {
+            color: #333;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
 
-.dropdown-menu a:hover {
-    background: #f1f1f1;
-}
+        .dropdown-menu a:hover {
+            background: #f1f1f1;
+        }
 
-.nav-item:hover .dropdown-menu {
-    display: block;
-}
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
 
+        /* Deletion Animation Styles */
+        @keyframes slideToTrash {
+            0% { transform: translateX(0) scale(1); opacity: 1; }
+            50% { transform: translateX(100px) scale(0.8); opacity: 0.7; }
+            100% { transform: translateX(200px) scale(0.5); opacity: 0; }
+        }
+
+        .deleting {
+            animation: slideToTrash 1.5s forwards;
+            position: relative;
+        }
     </style>
 </head>
 <body>
-<div th:replace="~{banner :: banner}"></div>
+
+<!-- Banner + Navigation -->
+<div class="banner">
+    <div class="banner-container">
+        <div class="society-info">
+            <div class="society-name">Qapla Society Management System</div>
+        </div>
+        <div class="user-info" th:if="${session.loggedInUser}">
+            <div class="user-name" th:text="'Welcome, ' + ${session.loggedInUser.memberName}"></div>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </div>
+</div>
+
+<!-- Navigation Menu -->
+<div class="nav-menu">
+    <div class="nav-container">
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="#" class="nav-link">Facility Management</a>
+                <div class="dropdown-menu">
+                    <a href="/addMember">Add Member</a>
+                    <a href="/showMembers">Show Members</a>
+                    <a href="/bulkUpload">Bulk Upload</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Document Management</a>
+                <div class="dropdown-menu">
+                    <a href="/documents/add">Add Document</a>
+                    <a href="/documents/list">Member Documents</a>
+                    <a href="/upload">Bulk Document Upload</a>
+                    <a href="/noc/request">Request Home Loan NOC</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Society Management</a>
+                <div class="dropdown-menu">
+                    <a href="/add-member">Add New Member</a>
+                    <a href="/members">View Members</a>
+                    <a href="/upload-members">Bulk Upload Members</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Tenders</a>
+                <div class="dropdown-menu">
+                    <a href="/tenders">View Tenders</a>
+                    <th:block th:if="${session.loggedInUser != null and
+                     (session.loggedInUser.role.name() == 'CHAIRMAN' or
+                      session.loggedInUser.role.name() == 'SECRETARY')}">
+                        <a href="/tenders/create">Create Tender</a>
+                    </th:block>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/noc/all">View NOC Requests</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">Visitor Management</a>
+                <div class="dropdown-menu">
+                    <a href="/pre-approve">Pre-Approve Guest</a>
+                    <a href="/scan-checkin">Scan QR Code at Gate</a>
+                    <a href="/visitors">Visitor List</a>
+                    <a th:href="@{/analytics}">Visitor Analytics</a>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">Guest Room</a>
+                <div class="dropdown-menu">
+                    <a th:href="@{/guest-room/book}">Book Room</a>
+                    <a th:href="@{/guest-room/status}">My Bookings</a>
+                    <a th:href="@{/guest-room/admin}">Admin Panel</a>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</div>
+
 <h1>Member List</h1>
 
 <!-- Success Message -->
@@ -328,30 +440,52 @@
         <td th:text="${member.action_date}"></td>
         <td th:text="${member.Action_By}"></td>
         <td>
-            <button th:onclick="'confirmDelete(' + ${member.FM_id} + ')'">Delete</button>
+            <button th:onclick="'confirmDelete(' + ${member.FM_id} + ')'" class="delete-button">Delete</button>
         </td>
     </tr>
 </table>
 
-<!-- Pagination Controls -->
 <div class="pagination">
     <a th:if="${currentPage > 0}" th:href="@{/showMembers(page=${currentPage - 1})}">Previous</a>
     <span th:text="'Page ' + (${currentPage} + 1) + ' of ' + ${totalPages}"></span>
     <a th:if="${currentPage < totalPages - 1}" th:href="@{/showMembers(page=${currentPage + 1})}">Next</a>
 </div>
 
-<!-- Navigation Buttons -->
 <div style="text-align: center;">
     <button onclick="location.href='/'">Home</button>
     <button onclick="location.href='/addMember'">Add Member</button>
 </div>
 
-<!-- JavaScript for Confirmation Dialog -->
+<!-- Deletion Animation Modal -->
+<div id="deletionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 30px; border-radius: 10px; text-align: center;">
+        <div id="deletionAnimation" style="font-size: 50px; margin-bottom: 20px;">🗑️</div>
+        <p style="font-size: 20px; font-weight: bold;">Deleting Member...</p>
+    </div>
+</div>
+
 <script>
     function confirmDelete(memberId) {
-      if (confirm("Are you sure you want to delete this member?")) {
-        window.location.href = '/deleteMember/' + memberId;
-      }
+        if (confirm("Are you sure you want to delete this member?")) {
+            // Show deletion animation
+            const modal = document.getElementById('deletionModal');
+            const animation = document.getElementById('deletionAnimation');
+            modal.style.display = 'flex';
+
+            // Animation sequence
+            let frames = ['🗑️', '📁➡️🗑️', '📄➡️🗑️', '👤➡️🗑️'];
+            let i = 0;
+            const animInterval = setInterval(() => {
+                animation.textContent = frames[i % frames.length];
+                i++;
+            }, 300);
+
+            // Redirect after animation
+            setTimeout(() => {
+                clearInterval(animInterval);
+                window.location.href = '/deleteMember/' + memberId;
+            }, 1500);
+        }
     }
 
     function exportData() {

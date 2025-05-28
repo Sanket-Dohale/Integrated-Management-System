@@ -1,0 +1,166 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Visitor List</title>
+  <link rel="stylesheet" th:href="@{/css/banner.css}">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      color: #2c3e50;
+      margin: 20px;
+    }
+    h2 {
+      font-weight: 700;
+      color: #34495e;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    thead {
+      background-color: #2980b9;
+      color: #ecf0f1;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.9em;
+    }
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      vertical-align: middle;
+    }
+    tbody tr:hover {
+      background-color: #f1f7fb;
+    }
+    td:nth-child(1) {
+      width: 50px;
+      text-align: center;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+    td:nth-child(2), /* Name */
+    td:nth-child(3)  /* Resident Email */ {
+      width: 180px;
+      font-weight: 600;
+      color: #34495e;
+    }
+    td:nth-child(4), /* Visit Date & Time */
+    td:nth-child(7)  /* Check-In Time */ {
+      width: 150px;
+      font-family: monospace;
+      color: #2c3e50;
+    }
+    td:nth-child(5) { /* Reason */
+      width: 200px;
+      color: #555;
+    }
+    td:nth-child(6) { /* Checked In */
+      width: 90px;
+      font-weight: 700;
+      text-align: center;
+    }
+    /* Checked In yes = green, no = red */
+    td:nth-child(6):contains('Yes') {
+      color: #27ae60;
+    }
+    td:nth-child(6):contains('No') {
+      color: #c0392b;
+    }
+
+  .alert {
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin: 10px auto;
+    width: 90%;
+    max-width: 800px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .alert-success {
+    background-color: #dff0d8;
+    color: #3c763d;
+  }
+  .alert-danger {
+    background-color: #f2dede;
+    color: #a94442;
+  }
+
+    .btn {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .btn-danger {
+    background-color: #e74c3c;
+  }
+
+  .btn-danger:hover {
+    background-color: #c0392b;
+  }
+
+  .btn-sm {
+    padding: 4px 10px;
+    font-size: 0.85em;
+  }
+
+  </style>
+
+</head>
+<body>
+<div th:replace="~{banner :: banner}"></div>
+<div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+<h2>Visitors List</h2>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Resident Email</th>
+    <th>Visit Date & Time</th>
+    <th>Reason</th>
+    <th>Checked In</th>
+    <th>Check-In Time</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="visitor : ${visitors}">
+    <td th:text="${visitor.id}">1</td>
+    <td th:text="${visitor.name}">John Doe</td>
+    <td th:text="${visitor.residentEmail}">resident@example.com</td>
+    <td th:text="${#temporals.format(visitor.visitDateTime, 'yyyy-MM-dd HH:mm')}"></td>
+    <td th:text="${visitor.reason}">Meeting</td>
+    <td th:text="${visitor.checkedIn ? 'Yes' : 'No'}">No</td>
+    <td th:text="${visitor.checkInTime != null ? #temporals.format(visitor.checkInTime, 'yyyy-MM-dd HH:mm') : '-'}">-</td>
+    <td>
+      <a th:href="@{'/visitor/delete/' + ${visitor.id}}"
+         onclick="return confirm('Are you sure you want to delete this visitor?');"
+         class="btn btn-danger btn-sm">Delete</a>
+    </td>
+
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
+
+

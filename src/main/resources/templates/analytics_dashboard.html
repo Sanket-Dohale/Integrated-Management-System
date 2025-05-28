@@ -1,0 +1,512 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Visitor Analytics Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/banner.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
+    <style>
+        /* Base styling */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+                'Open Sans', 'Helvetica Neue', sans-serif;
+            background: #121212;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0a74da, #004e92);
+            padding: 20px 0;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            font-size: 2.4rem;
+            letter-spacing: 1.2px;
+            user-select: none;
+            box-shadow: 0 4px 8px rgba(10, 116, 218, 0.5);
+            margin-bottom: 20px;
+            animation: headerPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerPulse {
+            0% {
+                box-shadow: 0 4px 8px rgba(10, 116, 218, 0.5);
+                transform: scale(1);
+            }
+
+            100% {
+                box-shadow: 0 8px 16px rgba(10, 116, 218, 0.8);
+                transform: scale(1.02);
+            }
+        }
+
+        div[th\\:replace] {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            font-weight: 600;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            color: #b0b0b0;
+            user-select: none;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            animation: fadeInUp 1s forwards;
+            animation-delay: 0.3s;
+        }
+
+        .chart-container {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+            background: #1e1e1e;
+            border-radius: 16px;
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.7),
+                inset 0 0 10px #004e92;
+            padding: 30px 30px 40px;
+            transition: box-shadow 0.4s ease, transform 0.4s ease;
+            opacity: 0;
+            animation: fadeInScale 1s forwards;
+            animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .chart-container:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .chart-container:nth-child(3) {
+            animation-delay: 0.7s;
+        }
+
+        .chart-container:hover {
+            box-shadow:
+                0 14px 40px rgba(0, 78, 146, 0.85),
+                inset 0 0 20px #0077ff;
+            transform: translateY(-8px) scale(1.04);
+        }
+
+        .export-buttons {
+            text-align: center;
+            margin: 50px 0 60px;
+            opacity: 0;
+            animation: fadeInUp 1s forwards;
+            animation-delay: 0.9s;
+        }
+
+        .export-buttons form {
+            display: inline-block;
+            margin: 0 20px;
+        }
+
+        .export-buttons button {
+            background: linear-gradient(145deg, #0057d9, #003f82);
+            border-radius: 30px;
+            padding: 14px 36px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e0e0e0;
+            border: none;
+            box-shadow:
+                0 4px 8px rgba(0, 87, 217, 0.6),
+                inset 0 -2px 6px #007aff;
+            cursor: pointer;
+            transition: box-shadow 0.35s ease, transform 0.35s ease, color 0.35s ease;
+            letter-spacing: 0.5px;
+            user-select: none;
+            outline-offset: 4px;
+            outline-color: transparent;
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+        }
+
+        .export-buttons button:hover,
+        .export-buttons button:focus {
+            box-shadow:
+                0 8px 20px rgba(0, 120, 255, 0.95),
+                inset 0 4px 12px #3399ff;
+            transform: scale(1.1);
+            color: #cce4ff;
+            outline-color: #3399ff;
+            outline-style: solid;
+            filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3));
+        }
+
+        @media (max-width: 600px) {
+            .chart-container {
+                width: 95%;
+                padding: 20px 20px 30px;
+            }
+
+            .export-buttons button {
+                width: 90vw;
+                max-width: 300px;
+                margin: 12px auto;
+                display: block;
+            }
+
+            .export-buttons form {
+                display: block;
+                margin: 0 auto;
+                max-width: 320px;
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+                filter: blur(4px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 0.9rem;
+            color: #666;
+            user-select: none;
+            background: #181818;
+            margin-top: auto;
+            box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+<div th:replace="~{banner :: banner}"></div>
+
+<header>
+    Visitor Analytics Dashboard
+</header>
+
+<h2>Visitor Analytics Overview</h2>
+
+<div class="chart-container">
+    <canvas id="weeklyChart"></canvas>
+</div>
+<div class="chart-container">
+    <canvas id="monthlyChart"></canvas>
+</div>
+<div class="chart-container">
+    <canvas id="yearlyChart"></canvas>
+</div>
+
+<div class="export-buttons">
+    <form method="get" action="/analytics/export/excel">
+        <button type="submit" title="Export data to Excel spreadsheet">Export to Excel</button>
+    </form>
+    <form method="get" action="/analytics/export/pdf">
+        <button type="submit" title="Export data to PDF document">Export to PDF</button>
+    </form>
+</div>
+
+<footer>
+    &copy; 2025 Society Facility Management System — All rights reserved.
+</footer>
+
+<script th:inline="javascript">
+    // Get canvas contexts to create gradients
+    const weeklyCtx = document.getElementById("weeklyChart").getContext("2d");
+    const monthlyCtx = document.getElementById("monthlyChart").getContext("2d");
+    const yearlyCtx = document.getElementById("yearlyChart").getContext("2d");
+
+    // Create gradient for weekly bars
+    const weeklyGradient = weeklyCtx.createLinearGradient(0, 0, 0, 400);
+    weeklyGradient.addColorStop(0, '#0a74da');
+    weeklyGradient.addColorStop(1, '#004e92');
+
+    // Create gradient for monthly line
+    const monthlyGradient = monthlyCtx.createLinearGradient(0, 0, 0, 400);
+    monthlyGradient.addColorStop(0, 'rgba(0, 175, 255, 0.4)');
+    monthlyGradient.addColorStop(1, 'rgba(0, 175, 255, 0.05)');
+
+    // Create gradient for yearly bars
+    const yearlyGradient = yearlyCtx.createLinearGradient(0, 0, 0, 400);
+    yearlyGradient.addColorStop(0, '#009688');
+    yearlyGradient.addColorStop(1, '#004d40');
+
+    const weeklyLabels = [[${weeklyLabels}]];
+    const weeklyData = [[${weeklyCounts}]];
+    const monthlyLabels = [[${monthlyLabels}]];
+    const monthlyData = [[${monthlyCounts}]];
+    const yearlyLabels = [[${yearlyLabels}]];
+    const yearlyData = [[${yearlyCounts}]];
+
+    const weeklyChart = new Chart(weeklyCtx, {
+        type: 'bar',
+        data: {
+            labels: weeklyLabels,
+            datasets: [{
+                label: 'Visitors This Week',
+                data: weeklyData,
+                backgroundColor: weeklyGradient,
+                borderRadius: 8,
+                maxBarThickness: 50,
+                borderSkipped: false,
+                hoverBackgroundColor: '#005ecb',
+                hoverBorderColor: '#003e7d',
+                borderColor: 'rgba(0, 116, 218, 0.8)',
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: {
+                duration: 1200,
+                easing: 'easeOutQuart'
+            },
+            plugins: {
+                tooltip: {
+                    backgroundColor: '#121212',
+                    titleFont: {
+                        size: 16,
+                        weight: '600'
+                    },
+                    bodyFont: {
+                        size: 14
+                    },
+                    cornerRadius: 6,
+                    boxPadding: 8,
+                    boxWidth: 10,
+                    displayColors: false
+                },
+                legend: {
+                    labels: {
+                        font: {
+                            size: 16,
+                            weight: '600'
+                        },
+                        color: '#a0cfff'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        color: '#9fcfff'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.07)'
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        color: '#9fcfff'
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    const monthlyChart = new Chart(monthlyCtx, {
+        type: 'line',
+        data: {
+            labels: monthlyLabels,
+            datasets: [{
+                label: 'Visitors This Month',
+                data: monthlyData,
+                fill: true,
+                backgroundColor: monthlyGradient,
+                borderColor: '#00afff',
+                borderWidth: 3,
+                tension: 0.35,
+                pointRadius: 8,
+                pointHoverRadius: 14,
+                pointBackgroundColor: '#00afff',
+                pointHoverBackgroundColor: '#66caff',
+                hoverBorderColor: '#0096e6',
+                hoverBorderWidth: 4,
+                cubicInterpolationMode: 'monotone'
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: {
+                duration: 1400,
+                easing: 'easeOutQuart'
+            },
+            plugins: {
+                tooltip: {
+                    backgroundColor: '#121212',
+                    titleFont: {
+                        size: 16,
+                        weight: '600'
+                    },
+                    bodyFont: {
+                        size: 14
+                    },
+                    cornerRadius: 6,
+                    boxPadding: 8,
+                    boxWidth: 10,
+                    displayColors: false
+                },
+                legend: {
+                    labels: {
+                        font: {
+                            size: 16,
+                            weight: '600'
+                        },
+                        color: '#99d1ff'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        color: '#a0d4ff'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.07)'
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        color: '#a0d4ff'
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    const yearlyChart = new Chart(yearlyCtx, {
+        type: 'bar',
+        data: {
+            labels: yearlyLabels,
+            datasets: [{
+                label: 'Visitors This Year',
+                data: yearlyData,
+                backgroundColor: yearlyGradient,
+                borderRadius: 8,
+                maxBarThickness: 50,
+                borderSkipped: false,
+                borderColor: 'rgba(0, 150, 136, 0.85)',
+                borderWidth: 2,
+                hoverBackgroundColor: '#00897b',
+                hoverBorderColor: '#004d40'
+            }]
+        },
+        options: {
+            responsive: true,
+            animation: {
+                duration: 1300,
+                easing: 'easeOutQuart'
+            },
+            plugins: {
+                tooltip: {
+                    backgroundColor: '#121212',
+                    titleFont: {
+                        size: 16,
+                        weight: '600'
+                    },
+                    bodyFont: {
+                        size: 14
+                    },
+                    cornerRadius: 6,
+                    boxPadding: 8,
+                    boxWidth: 10,
+                    displayColors: false
+                },
+                legend: {
+                    labels: {
+                        font: {
+                            size: 16,
+                            weight: '600'
+                        },
+                        color: '#99e0d7'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        color: '#a0e5dc'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.07)'
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        color: '#a0e5dc'
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+</script>
+</body>
+
+</html>
+

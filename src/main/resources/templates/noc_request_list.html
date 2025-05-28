@@ -1,0 +1,302 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All NOC Requests</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/banner.css}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div th:replace="~{banner :: banner}"></div>
+<div class="container mt-5">
+    <h2>All NOC Requests</h2>
+
+    <table class="table table-bordered table-striped mt-3">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Document Type</th>
+            <th>Tower</th>
+            <th>Flat Number</th>
+            <th>Owners</th>
+            <th>Bank Name</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="req : ${nocRequests}">
+            <td th:text="${req.id}"></td>
+            <td th:text="${req.documentType}"></td>
+            <td th:text="${req.tower}"></td>
+            <td th:text="${req.flatNumber}"></td>
+            <td th:text="${req.owners}"></td>
+            <td th:text="${req.bankName}"></td>
+            <td>
+                <span th:if="${req.status == 'Submitted'}" class="text-success">Pending</span>
+                <span th:if="${req.status == 'Withdrawn'}" class="text-danger">Withdrawn</span>
+                <span th:if="${req.status == 'Approved'}" class="text-primary">Approved</span>
+                <span th:if="${req.status == 'On Hold'}" class="text-warning">On Hold</span>
+            </td>
+
+            <td>
+                <form th:action="@{/noc/withdraw}" method="post" th:if="${req.status == 'Submitted'}">
+                    <input type="hidden" name="id" th:value="${req.id}"/>
+                    <button type="submit" class="btn btn-danger btn-sm">Withdraw</button>
+                </form>
+                <button type="button" class="btn btn-warning btn-sm mt-1" th:if="${req.status == 'Submitted'}" th:onclick="'openChecklist(' + ${req.id} + ')'">Dues</button>
+
+                <a th:if="${req.status == 'Approved'}" th:href="@{'/noc/download/' + ${req.id}}" class="btn btn-success btn-sm">Download NOC</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/noc/request" class="btn btn-primary mt-3">New Request</a>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="duesModal" tabindex="-1" aria-labelledby="duesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="duesForm">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="duesModalLabel">NOC Dues Checklist</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="nocId" name="nocId">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="ownerConfirmed">
+                        <label class="form-check-label" for="ownerConfirmed">Owner name is confirmed</label>
+                    </div>
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" id="nocEarlier">
+                        <label class="form-check-label" for="nocEarlier">NOC not issued earlier</label>
+                    </div>
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" id="maintenancePaid">
+                        <label class="form-check-label" for="maintenancePaid">Maintenance is paid</label>
+                    </div>
+
+                    <div class="alert alert-warning mt-3 d-none" id="warningMsg">
+                        Please complete the dues before approval.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="approveNoc()">Approve</button>
+                    <button type="button" class="btn btn-secondary" onclick="holdNoc()">Hold</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let modal;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        modal = new bootstrap.Modal(document.getElementById('duesModal'));
+    });
+
+    function openChecklist(id) {
+        document.getElementById('nocId').value = id;
+        document.getElementById('duesForm').reset();
+        document.getElementById('warningMsg').classList.add('d-none');
+        modal.show();
+    }
+
+    function approveNoc() {
+        const owner = document.getElementById('ownerConfirmed').checked;
+        const earlier = document.getElementById('nocEarlier').checked;
+        const maintenance = document.getElementById('maintenancePaid').checked;
+
+        if (!owner || !earlier || !maintenance) {
+            document.getElementById('warningMsg').classList.remove('d-none');
+            return;
+        }
+
+        updateStatus("Approved");
+    }
+
+    function holdNoc() {
+        updateStatus("On Hold");
+    }
+
+    function updateStatus(status) {
+        const id = document.getElementById('nocId').value;
+
+        $.post("/noc/updateStatus", {id: id, status: status}, function (response) {
+            if (response === "success") {
+                modal.hide();
+                location.reload();
+            } else {
+                alert("Failed to update status.");
+            }
+        });
+    }
+</script>
+</body>
+</html>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>All NOC Requests</title>-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">-->
+<!--    <link rel="stylesheet" th:href="@{/css/banner.css}">-->
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:replace="~{banner :: banner}"></div>-->
+<!--<div class="container mt-5">-->
+<!--    <h2>All NOC Requests</h2>-->
+
+<!--    &lt;!&ndash; Search Form &ndash;&gt;-->
+<!--    <form class="row g-3 mb-3" th:action="@{/noc/requests}" method="get">-->
+<!--        <div class="col-auto">-->
+<!--            <input type="text" name="search" class="form-control" placeholder="Search by Tower, Flat, Owner, Bank" th:value="${search}">-->
+<!--        </div>-->
+<!--        <div class="col-auto">-->
+<!--            <button type="submit" class="btn btn-outline-primary mb-3">Search</button>-->
+<!--        </div>-->
+<!--    </form>-->
+
+<!--    <table class="table table-bordered table-striped mt-3">-->
+<!--        <thead class="table-dark">-->
+<!--        <tr>-->
+<!--            <th>ID</th>-->
+<!--            <th>Document Type</th>-->
+<!--            <th>Tower</th>-->
+<!--            <th>Flat Number</th>-->
+<!--            <th>Owners</th>-->
+<!--            <th>Bank Name</th>-->
+<!--            <th>Status</th>-->
+<!--            <th>Action</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="req : ${nocRequests}">-->
+<!--            <td th:text="${req.id}"></td>-->
+<!--            <td th:text="${req.documentType}"></td>-->
+<!--            <td th:text="${req.tower}"></td>-->
+<!--            <td th:text="${req.flatNumber}"></td>-->
+<!--            <td th:text="${req.owners}"></td>-->
+<!--            <td th:text="${req.bankName}"></td>-->
+<!--            <td>-->
+<!--                <span th:if="${req.status == 'Submitted'}" class="text-success">Pending</span>-->
+<!--                <span th:if="${req.status == 'Withdrawn'}" class="text-danger">Withdrawn</span>-->
+<!--                <span th:if="${req.status == 'Approved'}" class="text-primary">Approved</span>-->
+<!--                <span th:if="${req.status == 'On Hold'}" class="text-warning">On Hold</span>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <form th:action="@{/noc/withdraw}" method="post" th:if="${req.status == 'Submitted'}">-->
+<!--                    <input type="hidden" name="id" th:value="${req.id}"/>-->
+<!--                    <button type="submit" class="btn btn-danger btn-sm">Withdraw</button>-->
+<!--                </form>-->
+<!--                <button type="button" class="btn btn-warning btn-sm mt-1" th:if="${req.status == 'Submitted'}" th:onclick="'openChecklist(' + ${req.id} + ')'">Dues</button>-->
+<!--                <a th:if="${req.status == 'Approved'}" th:href="@{'/noc/download/' + ${req.id}}" class="btn btn-success btn-sm">Download NOC</a>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+
+<!--    <a href="/noc/request" class="btn btn-primary mt-3">New Request</a>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Modal &ndash;&gt;-->
+<!--<div class="modal fade" id="duesModal" tabindex="-1" aria-labelledby="duesModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <form id="duesForm">-->
+<!--                <div class="modal-header">-->
+<!--                    <h5 class="modal-title" id="duesModalLabel">NOC Dues Checklist</h5>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                </div>-->
+<!--                <div class="modal-body">-->
+<!--                    <input type="hidden" id="nocId" name="nocId">-->
+<!--                    <div class="form-check">-->
+<!--                        <input class="form-check-input" type="checkbox" id="ownerConfirmed">-->
+<!--                        <label class="form-check-label" for="ownerConfirmed">Owner name is confirmed</label>-->
+<!--                    </div>-->
+<!--                    <div class="form-check mt-2">-->
+<!--                        <input class="form-check-input" type="checkbox" id="nocEarlier">-->
+<!--                        <label class="form-check-label" for="nocEarlier">NOC not issued earlier</label>-->
+<!--                    </div>-->
+<!--                    <div class="form-check mt-2">-->
+<!--                        <input class="form-check-input" type="checkbox" id="maintenancePaid">-->
+<!--                        <label class="form-check-label" for="maintenancePaid">Maintenance is paid</label>-->
+<!--                    </div>-->
+<!--                    <div class="alert alert-warning mt-3 d-none" id="warningMsg">-->
+<!--                        Please complete the dues before approval.-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-success" onclick="approveNoc()">Approve</button>-->
+<!--                    <button type="button" class="btn btn-secondary" onclick="holdNoc()">Hold</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Bootstrap JS &ndash;&gt;-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
+
+<!--<script>-->
+<!--    let modal;-->
+<!--    document.addEventListener("DOMContentLoaded", function () {-->
+<!--        modal = new bootstrap.Modal(document.getElementById('duesModal'));-->
+<!--    });-->
+
+<!--    function openChecklist(id) {-->
+<!--        document.getElementById('nocId').value = id;-->
+<!--        document.getElementById('duesForm').reset();-->
+<!--        document.getElementById('warningMsg').classList.add('d-none');-->
+<!--        modal.show();-->
+<!--    }-->
+
+<!--    function approveNoc() {-->
+<!--        const owner = document.getElementById('ownerConfirmed').checked;-->
+<!--        const earlier = document.getElementById('nocEarlier').checked;-->
+<!--        const maintenance = document.getElementById('maintenancePaid').checked;-->
+
+<!--        if (!owner || !earlier || !maintenance) {-->
+<!--            document.getElementById('warningMsg').classList.remove('d-none');-->
+<!--            return;-->
+<!--        }-->
+
+<!--        updateStatus("Approved");-->
+<!--    }-->
+
+<!--    function holdNoc() {-->
+<!--        updateStatus("On Hold");-->
+<!--    }-->
+
+<!--    function updateStatus(status) {-->
+<!--        const id = document.getElementById('nocId').value;-->
+<!--        $.post("/noc/updateStatus", {id: id, status: status}, function (response) {-->
+<!--            if (response === "success") {-->
+<!--                modal.hide();-->
+<!--                location.reload();-->
+<!--            } else {-->
+<!--                alert("Failed to update status.");-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+

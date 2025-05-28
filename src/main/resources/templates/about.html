@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About Us - Qapla IT Solutions</title>
+    <link rel="stylesheet" th:href="@{/css/banner.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* Existing styles preserved */
+
+        body {
+          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+          color: #1f2937;
+          font-family: 'Poppins', Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+          max-width: 1140px;
+          margin: 0 auto;
+          padding: 60px 20px 80px;
+        }
+
+        h1, h3, h4 {
+          letter-spacing: 0.04em;
+        }
+        h1 {
+          font-weight: 700;
+          font-size: 2.5rem;
+          color: #4f46e5;
+          margin-bottom: 12px;
+          text-shadow: 1px 1px 6px rgba(79, 70, 229, 0.3);
+          text-align: center;
+        }
+        h3 {
+          font-weight: 600;
+          font-size: 1.75rem;
+          margin-bottom: 24px;
+          color: #3730a3;
+          text-align: center;
+        }
+        h4 {
+          font-weight: 600;
+          font-size: 1.25rem;
+          margin-bottom: 6px;
+          color: #4338ca;
+        }
+
+        p {
+          line-height: 1.6;
+          font-size: 1rem;
+          color: #4b5563;
+        }
+
+        .tagline {
+          font-size: 1.125rem;
+          color: #6b7280;
+          text-align: center;
+          margin-bottom: 60px;
+          font-weight: 500;
+        }
+
+        .grid {
+          display: grid;
+          gap: 32px;
+        }
+        @media (min-width: 640px) {
+          .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 768px) {
+          .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .mission-vision-card, .card, .info-card {
+          background: #fff;
+          padding: 32px 28px;
+          border-radius: 20px;
+          box-shadow: 0 20px 35px rgba(0, 0, 0, 0.05);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .mission-vision-card.visible,
+        .card.visible,
+        .info-card.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        .mission-vision-card:hover,
+        .info-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 30px 50px rgba(79, 70, 229, 0.15);
+        }
+
+        .card {
+          overflow: hidden;
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          position: relative;
+        }
+        .card:hover {
+          transform: scale(1.07);
+          box-shadow: 0 28px 48px rgba(79, 70, 229, 0.25);
+          z-index: 10;
+        }
+
+        .card-img {
+          width: 100%;
+          height: 240px;
+          object-fit: cover;
+          border-bottom: 4px solid #4f46e5;
+          flex-shrink: 0;
+        }
+        .card-body {
+          padding: 20px 24px;
+          flex-grow: 1;
+        }
+        .text-gray {
+          color: #6b7280;
+          font-weight: 500;
+          margin-top: 2px;
+        }
+
+        .hover-info {
+          position: absolute;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background-color: rgba(79, 70, 229, 0.92);
+          color: white;
+          padding: 24px 20px;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.3s ease, visibility 0.3s ease;
+          font-size: 0.9rem;
+          line-height: 1.5;
+          overflow-y: auto;
+          border-radius: 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          text-align: center;
+          pointer-events: none;
+          z-index: 5;
+        }
+
+        .hover-info.show {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+        }
+
+        .contact {
+          text-align: center;
+          margin-top: 40px;
+          padding: 30px 20px;
+          background: #eef2ff;
+          border-radius: 20px;
+          box-shadow: 0 12px 24px rgba(79, 70, 229, 0.15);
+        }
+        .contact h3 {
+          color: #4338ca;
+          margin-bottom: 14px;
+        }
+        .contact a {
+          color: #4338ca;
+          font-weight: 600;
+          text-decoration: none;
+          border-bottom: 2px solid transparent;
+          transition: border-color 0.3s ease;
+        }
+        .contact a:hover {
+          border-color: #4338ca;
+        }
+
+        /* Info Cards */
+        .info-section {
+          margin-top: 60px;
+        }
+
+        .info-card p {
+          margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="banner :: banner"></div>
+
+<div class="container">
+    <h1>Qapla IT Solutions</h1>
+    <p class="tagline">Empowering Smart Society Living Through Digital Innovation</p>
+
+    <div class="grid grid-2">
+        <div class="mission-vision-card fade-in-section">
+            <h3>Our Mission</h3>
+            <p>To streamline and modernize the daily operations of housing societies by delivering an integrated, user-friendly, and secure digital platform.</p>
+        </div>
+        <div class="mission-vision-card fade-in-section">
+            <h3>Our Vision</h3>
+            <p>To be the go-to solution for residential community management, promoting transparency, accountability, and smart governance using technology.</p>
+        </div>
+    </div>
+
+    <h3>Meet the Developers</h3>
+    <div class="grid grid-3">
+        <div class="card fade-in-section"
+             onmouseenter="this.querySelector('.hover-info').classList.add('show')"
+             onmouseleave="this.querySelector('.hover-info').classList.remove('show')">
+            <img src="/images/man.jpeg" alt="Sanket Dohale" class="card-img" />
+            <div class="card-body">
+                <h4>Sanket Dohale</h4>
+                <p class="text-gray">Lead Developer</p>
+            </div>
+            <div class="hover-info">
+                <p><strong>Role:</strong> Backend Architecture, QR Code, PDF & Email Integration</p>
+                <p><strong>Skills:</strong> Spring Boot, Java 21, Thymeleaf, MySQL</p>
+                <p><strong>Email:</strong> dohalesanket123@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="card fade-in-section"
+             onmouseenter="this.querySelector('.hover-info').classList.add('show')"
+             onmouseleave="this.querySelector('.hover-info').classList.remove('show')">
+            <img src="/images/man.jpeg" alt="Shrinath Dohale" class="card-img" />
+            <div class="card-body">
+                <h4>Shrinath Dohale</h4>
+                <p class="text-gray">Co-Developer</p>
+            </div>
+            <div class="hover-info">
+                <p><strong>Role:</strong> Visitor Flow, NOC Handling, Check-in Logic</p>
+                <p><strong>Skills:</strong> Spring MVC, Java, DB Operations</p>
+                <p><strong>Email:</strong> shrinath.dohale@example.com</p>
+            </div>
+        </div>
+
+        <div class="card fade-in-section"
+             onmouseenter="this.querySelector('.hover-info').classList.add('show')"
+             onmouseleave="this.querySelector('.hover-info').classList.remove('show')">
+            <img src="/images/women.png" alt="Mayuri Rokade" class="card-img" />
+            <div class="card-body">
+                <h4>Mayuri Rokade</h4>
+                <p class="text-gray">UI/UX Developer</p>
+            </div>
+            <div class="hover-info">
+                <p><strong>Role:</strong> Frontend Layouts, Page Styling, Thymeleaf Integration</p>
+                <p><strong>Skills:</strong> HTML, CSS, Tailwind, JavaScript</p>
+                <p><strong>Email:</strong> mayuri.rokade@example.com</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Sections -->
+    <div class="info-section">
+        <h3>What We Offer</h3>
+        <div class="grid grid-2">
+            <div class="info-card fade-in-section">
+                <h4>Facility Management</h4>
+                <p>Track, book, and manage society amenities with seamless request handling and status updates.</p>
+            </div>
+            <div class="info-card fade-in-section">
+                <h4>Visitor Management</h4>
+                <p>Smart visitor approval system with QR codes, check-ins, and real-time resident notifications.</p>
+            </div>
+        </div>
+
+        <h3>Why Choose Us</h3>
+        <div class="grid grid-2">
+            <div class="info-card fade-in-section">
+                <h4>Robust Architecture</h4>
+                <p>Built on the latest Java Spring Boot stack with secure backend and efficient data handling.</p>
+            </div>
+            <div class="info-card fade-in-section">
+                <h4>Resident First Approach</h4>
+                <p>Our UI/UX is designed with simplicity and accessibility to serve all residents effectively.</p>
+            </div>
+        </div>
+
+        <h3>Our Core Values</h3>
+        <div class="grid grid-2">
+            <div class="info-card fade-in-section">
+                <h4>Transparency</h4>
+                <p>We ensure that every feature supports open communication and accountability.</p>
+            </div>
+            <div class="info-card fade-in-section">
+                <h4>Innovation</h4>
+                <p>Constantly improving and introducing smart features to enrich community living.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact">
+        <h3>Contact Us</h3>
+        <p>Email: <a href="mailto:support@qaplasolutions.com">support@qaplasolutions.com</a></p>
+        <p>Location: Pune, Maharashtra, India</p>
+    </div>
+</div>
+
+<script>
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.bottom > 0
+        );
+    }
+
+    function handleScrollAnimation() {
+        const elements = document.querySelectorAll('.fade-in-section');
+        elements.forEach(el => {
+            if (isInViewport(el)) {
+                el.classList.add('visible');
+            } else {
+                el.classList.remove('visible');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', handleScrollAnimation);
+    window.addEventListener('load', handleScrollAnimation);
+</script>
+</body>
+</html>

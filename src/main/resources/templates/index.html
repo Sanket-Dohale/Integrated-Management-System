@@ -1,9 +1,12 @@
 
 
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{banner :: head}">
     <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/banner.css}">
 </head>
 <body>
 <div th:replace="~{banner :: banner}"></div>
@@ -15,10 +18,39 @@
         background: white;
         border-radius: 5px;
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        font-family: Arial, sans-serif;">
-    <h1 style="text-align: center; color: #333;">Welcome to Society Management System</h1>
-    <p style="text-align: center;">Use the navigation menu above to access different management features.</p>
+        font-family: Arial, sans-serif;
+        text-align: center;"> <!-- Added text-align: center here -->
+
+    <!-- Logo Image -->
+    <img src="https://img.freepik.com/premium-vector/unique-vector-design_517312-42844.jpg?w=826"
+         alt="Society Logo"
+         style="max-width: 200px; height: auto; margin-bottom: 20px;" />
+
+    <h1 style="color: #333;">Welcome to Society Management System</h1>
+    <p>Use the navigation menu above to access different management features.</p>
 </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

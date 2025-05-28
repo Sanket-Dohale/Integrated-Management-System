@@ -1,0 +1,76 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>My Bookings</title>
+  <link rel="stylesheet" th:href="@{/css/banner.css}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f8f9fa;
+      color: #243b55;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 90%;
+      margin: 0 auto 50px auto;
+      border-collapse: collapse;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #141e30;
+      color: white;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="~{banner :: banner}"></div>
+<h1>My Guest Room Bookings</h1>
+<table border="1">
+  <thead>
+  <tr>
+    <th>Flat</th>
+    <th>Guest Name</th>
+    <th>Purpose</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="booking : ${bookings}">
+    <td th:text="${booking.flatNumber}"></td>
+    <td th:text="${booking.guestName}"></td>
+    <td th:text="${booking.purpose}"></td>
+    <td th:text="${booking.startDate}"></td>
+    <td th:text="${booking.endDate}"></td>
+    <td th:text="${booking.status}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
+

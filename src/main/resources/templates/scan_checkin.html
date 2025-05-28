@@ -1,0 +1,87 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>QR Code Scanner - Visitor Check-In</title>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <link rel="stylesheet" th:href="@{/css/banner.css}">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 20px;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      color: #222;
+    }
+
+    h2 {
+      text-align: center;
+      font-weight: 700;
+      color: #00796b;
+      margin-bottom: 10px;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+      animation-delay: 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    p {
+      text-align: center;
+      font-size: 1.1em;
+      color: #004d40;
+      margin-top: 0;
+      margin-bottom: 30px;
+      font-style: normal;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+      animation-delay: 0.6s;
+    }
+
+    #reader {
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 0 25px 6px #26a69a;
+      opacity: 0;
+      animation: fadeIn 1s forwards;
+      animation-delay: 0.9s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div th:replace="~{banner :: banner}"></div>
+
+<h2>Scan QR Code to Check-In</h2>
+<p>Please allow camera access and scan the visitor QR code.</p>
+
+<div id="reader"></div>
+
+<script>
+  function onScanSuccess(decodedText, decodedResult) {
+    html5QrcodeScanner.clear().then(() => {
+      window.location.href = decodedText;
+    }).catch(err => {
+      console.error("Error stopping scanner", err);
+    });
+  }
+
+  const html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader",
+    { fps: 10, qrbox: 250 },
+    false
+  );
+
+  html5QrcodeScanner.render(onScanSuccess);
+</script>
+
+</body>
+</html>

@@ -1,4 +1,6 @@
 
+
+
 package com.qapla.ERP.Society.controller;
 
 import com.qapla.ERP.Society.model.FacilityMember;
@@ -95,7 +97,7 @@ public class FacilityMemberController {
 
     private String convertToCsv(List<FacilityMember> members) {
         StringBuilder csv = new StringBuilder();
-        csv.append("ID,Staff Name,Role,Start Date,End Date,Is Active,Action Type,Action Date,Action By\n");
+        csv.append("ID,Staff_Name,Role,start_date,end_date,Is_Active,Action_Type,action_date,Action_By\n");
 
         for (FacilityMember member : members) {
             csv.append(member.getFM_id()).append(",")
@@ -127,14 +129,14 @@ public class FacilityMemberController {
             FacilityMember member = members.get(i);
             json.append("  {\n")
                     .append("    \"id\": ").append(member.getFM_id()).append(",\n")
-                    .append("    \"staffName\": \"").append(escapeJson(member.getStaff_Name())).append("\",\n")
-                    .append("    \"role\": \"").append(member.getRole()).append("\",\n")
-                    .append("    \"startDate\": \"").append(member.getStart_date()).append("\",\n")
-                    .append("    \"endDate\": \"").append(member.getEnd_date() != null ? member.getEnd_date() : "").append("\",\n")
-                    .append("    \"isActive\": ").append(member.getIs_Active() != null ? member.getIs_Active() : "null").append(",\n")
-                    .append("    \"actionType\": \"").append(escapeJson(member.getAction_Type())).append("\",\n")
-                    .append("    \"actionDate\": \"").append(member.getAction_date() != null ? member.getAction_date() : "").append("\",\n")
-                    .append("    \"actionBy\": \"").append(escapeJson(member.getAction_By())).append("\"\n")
+                    .append("    \"Staff_Name\": \"").append(escapeJson(member.getStaff_Name())).append("\",\n")
+                    .append("    \"Role\": \"").append(member.getRole()).append("\",\n")
+                    .append("    \"start_date\": \"").append(member.getStart_date()).append("\",\n")
+                    .append("    \"end_date\": \"").append(member.getEnd_date() != null ? member.getEnd_date() : "").append("\",\n")
+                    .append("    \"Is_Active\": ").append(member.getIs_Active() != null ? member.getIs_Active() : "null").append(",\n")
+                    .append("    \"Action_Type\": \"").append(escapeJson(member.getAction_Type())).append("\",\n")
+                    .append("    \"action_date\": \"").append(member.getAction_date() != null ? member.getAction_date() : "").append("\",\n")
+                    .append("    \"Action_By\": \"").append(escapeJson(member.getAction_By())).append("\"\n")
                     .append("  }");
 
             if (i < members.size() - 1) {
@@ -189,8 +191,6 @@ public class FacilityMemberController {
     }
 
 }
-
-
 
 
 

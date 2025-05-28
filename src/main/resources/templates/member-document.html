@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -5,36 +7,40 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            text-align: center;
+            background-color: white;
+            color: #333;
             margin: 0;
             padding: 0;
         }
+
         h2 {
-            color: white;
+            color: #333;
             margin-top: 20px;
+            text-align: center;
         }
+
         .debug-info {
             background-color: #f8f9fa;
             padding: 15px;
-            margin: 20px 0;
+            margin: 20px auto;
             border-radius: 5px;
             border-left: 4px solid #17a2b8;
             width: 80%;
-            margin-left: auto;
-            margin-right: auto;
             text-align: left;
         }
+
         .empty-table {
             color: #dc3545;
             font-style: italic;
             padding: 20px;
             text-align: center;
         }
+
         .export-section {
             text-align: right;
             margin: 20px 10%;
         }
+
         .btn-export {
             background-color: #28a745;
             color: white;
@@ -43,9 +49,11 @@
             text-decoration: none;
             display: inline-block;
         }
+
         .btn-export:hover {
             background-color: #218838;
         }
+
         table {
             width: 80%;
             margin: 20px auto;
@@ -55,18 +63,22 @@
             overflow: hidden;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
         }
+
         th, td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         th {
-            background: #007bff;
+            background: black;
             color: white;
         }
+
         tr:hover {
             background-color: #f1f1f1;
         }
+
         .btn-delete {
             background-color: #dc3545;
             color: white;
@@ -75,13 +87,16 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         .btn-delete:hover {
             background-color: #c82333;
         }
+
         .navigation {
             margin-top: 30px;
             text-align: center;
         }
+
         .navigation a {
             display: inline-block;
             padding: 10px 15px;
@@ -92,141 +107,152 @@
             border-radius: 5px;
             transition: background-color 0.3s ease;
         }
+
         .navigation a:hover {
             background-color: #545b62;
         }
-        .btn-home { background-color: #17a2b8; }
-        .btn-add { background-color: #28a745; }
+
+        .btn-home {
+            background-color: #17a2b8;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+        }
 
         /* Banner Styles */
-.banner {
-    background: linear-gradient(to right, #141e30, #243b55);
-    color: white;
-    padding: 15px 0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
+        .banner {
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
 
-.banner-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+        .banner-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-.society-info {
-    display: flex;
-    align-items: center;
-}
+        .society-info {
+            display: flex;
+            align-items: center;
+        }
 
-.society-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-right: 20px;
-}
+        .society-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 20px;
+        }
 
-.app-name {
-    font-size: 1.2rem;
-    opacity: 0.8;
-}
+        .app-name {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
 
-.user-info {
-    display: flex;
-    align-items: center;
-}
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
 
-.user-name {
-    margin-right: 15px;
-}
+        .user-name {
+            margin-right: 15px;
+        }
 
-.logout-btn {
-    background: #f44336;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 0.9rem;
-}
+        .logout-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
 
-/* Navigation Menu */
-.nav-menu {
-    background: #243b55;
-    padding: 10px 0;
-}
+        /* Navigation Menu */
+        .nav-menu {
+            background: #243b55;
+            padding: 10px 0;
+        }
 
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-.nav-list {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+        .nav-list {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-.nav-item {
-    position: relative;
-    margin-right: 20px;
-}
+        .nav-item {
+            position: relative;
+            margin-right: 20px;
+        }
 
-.nav-link {
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-    display: block;
-}
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+        }
 
-.nav-link:hover {
-    background: rgba(255,255,255,0.1);
-}
+        .nav-link:hover {
+            background: rgba(255,255,255,0.1);
+        }
 
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    background: white;
-    min-width: 200px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 4px;
-}
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
 
-.dropdown-menu a {
-    color: #333;
-    padding: 10px 15px;
-    text-decoration: none;
-    display: block;
-}
+        .dropdown-menu a {
+            color: #333;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
 
-.dropdown-menu a:hover {
-    background: #f1f1f1;
-}
+        .dropdown-menu a:hover {
+            background: #f1f1f1;
+        }
 
-.nav-item:hover .dropdown-menu {
-    display: block;
-}
-
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
     </style>
 </head>
 <body>
 <div th:replace="~{banner :: banner}"></div>
+
 <h2>Member Documents</h2>
+
 <div class="debug-info" th:if="${documents != null}">
     <strong>Debug Information:</strong>
     <div>Total Documents: <span th:text="${documents.size()}"></span></div>
     <div>First Document ID: <span th:text="${documents[0]?.id ?: 'N/A'}"></span></div>
 </div>
+
 <div class="export-section">
     <a th:href="@{/documents/export}" class="btn-export">Export to CSV</a>
 </div>
+
 <table class="document-table">
     <thead>
     <tr>
@@ -261,6 +287,7 @@
     </tr>
     </tbody>
 </table>
+
 <div class="navigation">
     <a href="/" class="btn-home">🏠 Home</a>
     <a href="/documents/add" class="btn-add">🔄 Add Document</a>
